@@ -1,5 +1,3 @@
-using System;
-
 namespace Alga.xaml.Models;
 
 internal class D

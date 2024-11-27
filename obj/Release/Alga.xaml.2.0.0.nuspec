@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Alga.xaml</id>
+    <version>2.0.0</version>
+    <authors>xaml</authors>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <readme>README.md</readme>
+    <description>Package Description</description>
+    <repository type="git" url="https://github.com/rtink-git/Alga.xaml" commit="c3dd3eda5a7dfc612c69cfeb3f1a609ad6194890" />
+    <dependencies>
+      <group targetFramework="net9.0">
+        <dependency id="Microsoft.Extensions.Logging" version="9.0.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="/Users/aidargalimov/Library/Mobile Documents/com~apple~CloudDocs/Airat/Projects/Alga/xaml/xaml/bin/Release/net9.0/xaml.dll" target="lib/net9.0/xaml.dll" />
+    <file src="/Users/aidargalimov/Library/Mobile Documents/com~apple~CloudDocs/Airat/Projects/Alga/xaml/xaml/README.md" target="README.md" />
+  </files>
+</package>

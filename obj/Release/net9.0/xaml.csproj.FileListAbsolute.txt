@@ -1,0 +1,13 @@
+/Users/aidargalimov/Library/Mobile Documents/com~apple~CloudDocs/Airat/Projects/Alga/xaml/xaml/bin/Release/net9.0/xaml.deps.json
+/Users/aidargalimov/Library/Mobile Documents/com~apple~CloudDocs/Airat/Projects/Alga/xaml/xaml/bin/Release/net9.0/xaml.dll
+/Users/aidargalimov/Library/Mobile Documents/com~apple~CloudDocs/Airat/Projects/Alga/xaml/xaml/bin/Release/net9.0/xaml.pdb
+/Users/aidargalimov/Library/Mobile Documents/com~apple~CloudDocs/Airat/Projects/Alga/xaml/xaml/obj/Release/net9.0/xaml.csproj.AssemblyReference.cache
+/Users/aidargalimov/Library/Mobile Documents/com~apple~CloudDocs/Airat/Projects/Alga/xaml/xaml/obj/Release/net9.0/xaml.GeneratedMSBuildEditorConfig.editorconfig
+/Users/aidargalimov/Library/Mobile Documents/com~apple~CloudDocs/Airat/Projects/Alga/xaml/xaml/obj/Release/net9.0/xaml.AssemblyInfoInputs.cache
+/Users/aidargalimov/Library/Mobile Documents/com~apple~CloudDocs/Airat/Projects/Alga/xaml/xaml/obj/Release/net9.0/xaml.AssemblyInfo.cs
+/Users/aidargalimov/Library/Mobile Documents/com~apple~CloudDocs/Airat/Projects/Alga/xaml/xaml/obj/Release/net9.0/xaml.csproj.CoreCompileInputs.cache
+/Users/aidargalimov/Library/Mobile Documents/com~apple~CloudDocs/Airat/Projects/Alga/xaml/xaml/obj/Release/net9.0/xaml.sourcelink.json
+/Users/aidargalimov/Library/Mobile Documents/com~apple~CloudDocs/Airat/Projects/Alga/xaml/xaml/obj/Release/net9.0/xaml.dll
+/Users/aidargalimov/Library/Mobile Documents/com~apple~CloudDocs/Airat/Projects/Alga/xaml/xaml/obj/Release/net9.0/refint/xaml.dll
+/Users/aidargalimov/Library/Mobile Documents/com~apple~CloudDocs/Airat/Projects/Alga/xaml/xaml/obj/Release/net9.0/xaml.pdb
+/Users/aidargalimov/Library/Mobile Documents/com~apple~CloudDocs/Airat/Projects/Alga/xaml/xaml/obj/Release/net9.0/ref/xaml.dll
