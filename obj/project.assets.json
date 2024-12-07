@@ -357,25 +357,24 @@
     ]
   },
   "packageFolders": {
-    "/Users/aidargalimov/.nuget/packages/": {}
+    "/Users/airatgalimov/.nuget/packages/": {}
   },
   "project": {
-    "version": "2.0.0",
+    "version": "2.0.2",
     "restore": {
-      "projectUniqueName": "/Users/aidargalimov/Library/Mobile Documents/com~apple~CloudDocs/Airat/Projects/Alga/xaml/xaml/xaml.csproj",
+      "projectUniqueName": "/Users/airatgalimov/Documents/Airat/Projects/Alga/Alga.xaml/xaml.csproj",
       "projectName": "Alga.xaml",
-      "projectPath": "/Users/aidargalimov/Library/Mobile Documents/com~apple~CloudDocs/Airat/Projects/Alga/xaml/xaml/xaml.csproj",
-      "packagesPath": "/Users/aidargalimov/.nuget/packages/",
-      "outputPath": "/Users/aidargalimov/Library/Mobile Documents/com~apple~CloudDocs/Airat/Projects/Alga/xaml/xaml/obj/",
+      "projectPath": "/Users/airatgalimov/Documents/Airat/Projects/Alga/Alga.xaml/xaml.csproj",
+      "packagesPath": "/Users/airatgalimov/.nuget/packages/",
+      "outputPath": "/Users/airatgalimov/Documents/Airat/Projects/Alga/Alga.xaml/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/aidargalimov/.nuget/NuGet/NuGet.Config"
+        "/Users/airatgalimov/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
-        "/usr/local/share/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
