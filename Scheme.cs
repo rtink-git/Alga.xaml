@@ -2,46 +2,63 @@
 using System.Text;
 
 namespace Alga.xaml;
+/// <summary>
+/// Represents a schema that processes a serialized XAML document and provides various utility methods for retrieving and parsing data.
+/// </summary>
 public class Scheme {
     readonly string Doc;
     readonly ILogger? Logger;
+    /// <summary>
+    /// A list of simple elements extracted from the document.
+    /// </summary>
     public List<Models.Simple> Simple { get; private set; }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Scheme"/> class
+    /// </summary>
+    /// <param name="doc">Serialized XAML document content to process</param>
+    /// <param name="loggerFactory">Optional logger factory for logging purposes</param>
+    /// <exception cref="ArgumentNullException">Thrown when the provided document is null</exception>
     public Scheme(string doc, ILoggerFactory? loggerFactory = null) {
         this.Doc = doc ?? throw new ArgumentNullException(nameof(doc));
         Logger = loggerFactory?.CreateLogger<Scheme>();
         this.Simple = GetList();
     }
 
+    /// <summary>
+    /// Retrieves the inner text for a specific descriptor (tag) by its index.
+    /// </summary>
+    /// <param name="descriptorIndex">The index of the descriptor to process.</param>
+    /// <returns>The inner text if found; otherwise, an empty string.</returns>
     public string GetInnerText(int descriptorIndex) {
         const string mn = $"{nameof(GetInnerText)}()";
 
-        if (descriptorIndex < 0 || descriptorIndex >= Simple.Count) {
-            Logger?.LogError($"{mn} Input param \"descriptorIndex\" is out of range.");
-            return string.Empty;
-        }
+        if (!IsValidDescriptorIndex(descriptorIndex))
+            return LogAndReturnEmpty(mn, "Input param \"descriptorIndex\" is out of range.");
 
         var descriptor = Simple[descriptorIndex];
         if (descriptor.open != descriptorIndex) return string.Empty;
 
-        try { 
+        try {
             int start = descriptor.finish + 1;
-            int length = Simple[descriptor.close].start - descriptor.finish - 1;
-            return length > 0 ? Doc.Substring(start, length) : string.Empty;
-        }
-        catch (Exception ex) {
-            Logger?.LogError($"{mn} Exception message: {ex.Message}");
+            int end = Simple[descriptor.close].start;
+            return start < end ? Doc.AsSpan(start, end - start).ToString() : string.Empty;
+        } catch (Exception ex) {
+            Logger?.LogError($"{mn}: Exception: {ex.Message}");
             return string.Empty;
         }
     }
 
+    /// <summary>
+    /// Retrieves only the inner text for a specific descriptor by its index, excluding nested tags.
+    /// </summary>
+    /// <param name="descriptorIndex">The index of the descriptor to process.</param>
+    /// <returns>The inner text if found; otherwise, an empty string.</returns>
     public string GetInnerOnlyText(int descriptorIndex) {
         const string mn = $"{nameof(GetInnerOnlyText)}()";
 
-        if (descriptorIndex < 0 || descriptorIndex >= Simple.Count) {
-            Logger?.LogError($"{mn} Input param \"descriptorIndex\" is out of range.");
-            return string.Empty;
-        }
+        if (!IsValidDescriptorIndex(descriptorIndex))
+            return LogAndReturnEmpty(nameof(GetInnerOnlyText), "Input param \"descriptorIndex\" is out of range.");
 
         var descriptor = Simple[descriptorIndex];
         if (descriptor.open != descriptorIndex) return string.Empty;
@@ -50,36 +67,43 @@ public class Scheme {
         bool insideText = false;
 
         try {
-            for (int i = descriptor.finish + 1; i < Simple[descriptor.close].start; i++) {
+            int start = descriptor.finish + 1;
+            int end = Simple[descriptor.close].start;
+
+            for (int i = start; i < end; i++) {
                 char c = Doc[i];
 
                 if (c == '<') insideText = false;
                 if (insideText) result.Append(Doc[i]);
                 if (c == '>') insideText = true;
             }
-        } catch (Exception ex) { Logger?.LogError($"{mn} Catch. Exception: " + ex.Message); }
+        } catch (Exception ex) { Logger?.LogError($"{mn}: Exception: {ex.Message}"); }
 
         return result.ToString();
     }
 
-    // оптимизировать отдельно и еще раз
+    /// <summary>
+    /// Extracts the attributes for a descriptor by its index.
+    /// </summary>
+    /// <param name="descriptorIndex">The index of the descriptor to process.</param>
+    /// <returns>A list of attributes associated with the descriptor.</returns>
     public List<Models.Attribute> GetAttributes(int descriptorIndex) {
         const string mn = $"{nameof(GetAttributes)}()";
 
         var attributes = new List<Models.Attribute>();
 
-        if (descriptorIndex < 0 || descriptorIndex >= Simple.Count) {
-            Logger?.LogError($"{mn} Input param \"descriptorIndex\" is out of range.");
-            return attributes;
+        if (!IsValidDescriptorIndex(descriptorIndex)) {
+            Logger?.LogError($"{mn}: Input param \"descriptorIndex\" is out of range.");
+            return new List<Models.Attribute>();
         }
 
         var descriptor = Simple[descriptorIndex];
         if (descriptor.open != descriptorIndex || Doc[descriptor.start] != '<') return attributes;
 
+        string? attrName = null;
+        string? attrValue = null;
+        
         try {
-            string? attrName = null;
-            string? attrValue = null;
-
             for (int i = descriptor.start + descriptor.name.Length + 1; i < descriptor.finish; i++) {
                 char c = Doc[i];
 
@@ -116,18 +140,17 @@ public class Scheme {
         return attributes;
     }
 
+    // Task: Есть  Есть вопросики к  соченанию elementName & attributes
+
     /// <summary>
-    /// 
+    /// Finds the index of the first matching element based on the name and attributes.
     /// </summary>
-    /// <param name="xpath">
-    /// examples:
-    /// h1
-    /// h1[@class="produnctName"]
-    /// </param>
-    /// <param name="startIndex"></param>
-    /// <param name="endIndex"></param>
-    /// <returns></returns>
-    public int FirstFoundElementIndex(string elementName= "", List<Alga.xaml.Models.Attribute>? attributes = null,  int startIndex = 0, int endIndex = int.MaxValue) {
+    /// <param name="elementName">The name of the element to find (optional).</param>
+    /// <param name="attributes">A list of attributes to match (optional).</param>
+    /// <param name="startIndex">The starting index for the search.</param>
+    /// <param name="endIndex">The ending index for the search.</param>
+    /// <returns>The index of the first matching element, or -1 if not found.</returns>
+    public int FirstFoundElementIndex(string elementName= "", List<Models.Attribute>? attributes = null,  int startIndex = 0, int endIndex = int.MaxValue) {
         const string mn = $"{nameof(FirstFoundElementIndex)}()";
 
         if (elementName.Length == 0 && (attributes == null || attributes.Count == 0)) return -1;
@@ -145,15 +168,19 @@ public class Scheme {
                 if (attributes == null || attributes.Count == 0) return i;
 
                 var elementAttributes = GetAttributes(i);
-                var isAttributeMatch = attributes.All(attr => elementAttributes.Any(ea => ea.name == attr.name && ea.value == attr.value));
-                if (isAttributeMatch) return i;
+                if(attributes.All(attr => elementAttributes.Any(ea => ea.name == attr.name && ea.value == attr.value))) return i;
             }
         } catch (Exception ex) { Logger?.LogError($"{mn} Catch. Exception: " + ex.Message); }
 
         return -1;
     }
 
-    // Task #1: не понятна оптимизация предложенная hatGpt
+    // Task #1: не понятна оптимизация предложенная ChatGpt
+
+    /// <summary>
+    /// Retrieves a list of simple elements from the document
+    /// </summary>
+    /// <returns>A list of parsed simple elements.</returns>
     List<Models.Simple> GetList() {
         const string mn = $"{nameof(GetList)}()";
 
@@ -220,9 +247,9 @@ public class Scheme {
     }
 
     /// <summary>
-    /// Task: Optimiztion
+    /// Retrieves detailed information from the document as "D" elements.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A list of "D" elements extracted from the document</returns>
     List<Models.D> GetDs() {
         const string mn = $"{nameof(GetList)}()";
 
@@ -281,5 +308,19 @@ public class Scheme {
         } catch (Exception ex) { Logger?.LogError($"{mn} Catch. Exception: " + ex.Message); }
 
         return dms;
+    }
+
+    /// <summary>
+    /// Validates if the descriptor index is within range.
+    /// </summary>
+    bool IsValidDescriptorIndex(int index) => index >= 0 && index < Simple.Count;
+
+    /// <summary>
+    /// Logs an error and returns an empty string.
+    /// </summary>
+    string LogAndReturnEmpty(string methodName, string message)
+    {
+        Logger?.LogError($"{methodName}: {message}");
+        return string.Empty;
     }
 }

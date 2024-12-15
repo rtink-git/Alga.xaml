@@ -12,11 +12,11 @@ using System.Reflection;
 
 [assembly: System.Reflection.AssemblyCompanyAttribute("xaml")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
-[assembly: System.Reflection.AssemblyFileVersionAttribute("2.0.2.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2.0.2+dc4882c389f851f3f2f4258ed8f773b8bbfd5cb1")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("2.0.3.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2.0.3+4f2c20e6ce3e75b6d49f2a4771348ff1be13ad43")]
 [assembly: System.Reflection.AssemblyProductAttribute("xaml")]
 [assembly: System.Reflection.AssemblyTitleAttribute("xaml")]
-[assembly: System.Reflection.AssemblyVersionAttribute("2.0.2.0")]
+[assembly: System.Reflection.AssemblyVersionAttribute("2.0.3.0")]
 [assembly: System.Reflection.AssemblyMetadataAttribute("RepositoryUrl", "https://github.com/rtink-git/Alga.xaml")]
 
 // Создано классом WriteCodeFragment MSBuild.
